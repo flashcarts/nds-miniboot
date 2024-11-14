@@ -67,7 +67,7 @@ void ipc_arm7_cmd(uint32_t cmd) {
 #define SELF_ARM7_START (SELF_ARM9_START + (((uint32_t) &_io_dldi_stub) & 0xFFFF) + 32768)
 #else
 #ifndef DEFAULT_BOOT_PATH
-#define DEFAULT_BOOT_PATH "/BOOT.NDS"
+#define DEFAULT_BOOT_PATH "/TTMenu.dat"
 #endif
 const char *executable_path = DEFAULT_BOOT_PATH;
 
