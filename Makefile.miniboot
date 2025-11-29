@@ -21,6 +21,7 @@ CPU		:= arm9
 LINKSCRIPT	:= arm9
 SOURCEDIRS	+= $(ARM9_SOURCES)
 ASSETDIRS	+= source/arm9
+DEFINES		+= -DPLUS
 endif
 
 ifeq ($(TARGET),arm9plus)
@@ -36,7 +37,7 @@ CPU		:= arm9
 LINKSCRIPT	:= arm9
 SOURCEDIRS	+= $(ARM9_SOURCES)
 ASSETDIRS	+= source/arm9
-DEFINES		+= -DNO_BOOTSTUB
+DEFINES		+= -DNO_BOOTSTUB -DPLUS
 endif
 
 ifeq ($(TARGET),arm9_moonshl2)
