@@ -67,7 +67,7 @@ void ipc_arm7_cmd(uint32_t cmd) {
 #define SELF_ARM7_START (SELF_ARM9_START + (((uint32_t) &_io_dldi_stub) & 0xFFFF) + 32768)
 #else
 #ifndef DEFAULT_BOOT_PATH
-#define DEFAULT_BOOT_PATH "/BOOT.NDS"
+#define DEFAULT_BOOT_PATH "/_picoboot.nds"
 #endif
 const char *executable_path = DEFAULT_BOOT_PATH;
 
@@ -139,7 +139,7 @@ int main(void) {
     // We'll make use of this copy for patching the ARM9 binary later.
     __aeabi_memcpy4(DLDI_BACKUP, &_io_dldi_stub, 16384);
 
-    // Mount the filesystem. Try to open BOOT.NDS.
+    // Mount the filesystem. Try to open _picoboot.nds.
     dprintf("Mounting FAT filesystem... ");
     checkErrorFatFs("Could not mount FAT filesystem", f_mount(&fs, "", 1));
     dprintf("OK\n");
