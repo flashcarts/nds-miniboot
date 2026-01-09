@@ -2,8 +2,8 @@
 //
 // Copyright (c) 2024 Adrian "asie" Siekierka
 
-#ifndef __CONSOLE_H__
-#define __CONSOLE_H__
+#ifndef CONSOLE_H__
+#define CONSOLE_H__
 
 #include "common.h"
 

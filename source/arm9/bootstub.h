@@ -2,8 +2,8 @@
 //
 // Copyright (c) 2024 Adrian "asie" Siekierka
 
-#ifndef __BOOTSTUB_H__
-#define __BOOTSTUB_H__
+#ifndef BOOTSTUB_H__
+#define BOOTSTUB_H__
 
 #include <stdint.h>
 

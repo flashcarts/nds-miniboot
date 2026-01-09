@@ -69,6 +69,7 @@ NDSROM_ITDS_GB		:= dist/m3ds/boot.gb
 NDSROM_ITDS_JP		:= dist/m3ds/boot.jp
 NDSROM_M3DS		:= dist/m3ds/SYSTEM/g6dsload.eng
 NDSROM_MKR6		:= dist/mkr6/_boot_ds.nds
+NDSROM_MOONSHL2		:= dist/generic/moonshl2/extlink/nds.miniboot.nds
 NDSROM_R4		:= dist/generic/_DS_MENU.DAT
 NDSROM_R4DSPRO	:= dist/r4dspro/_ds_menu.dat
 NDSROM_R4IDSN		:= dist/r4idsn/_dsmenu.dat
@@ -79,7 +80,7 @@ NDSROM_R4ITT		:= dist/r4itt/_ds_menu.dat
 NDSROM_R4RTS		:= dist/m3ds/loader.eng
 NDSROM_STARGATE		:= dist/stargate/_ds_menu.dat
 
-.PHONY: all clean arm9 arm9plus arm9_nobootstub arm7
+.PHONY: all clean arm9 arm9plus arm9_nobootstub arm9_moonshl2 arm7
 
 all: arm9plus \
 	$(NDSROM) \
@@ -98,6 +99,7 @@ all: arm9plus \
 	$(NDSROM_ITDS_JP) \
 	$(NDSROM_M3DS) \
 	$(NDSROM_MKR6) \
+	$(NDSROM_MOONSHL2) \
 	$(NDSROM_R4) \
 	$(NDSROM_R4DSPRO) \
 	$(NDSROM_R4IDSN) \
@@ -303,6 +305,14 @@ $(NDSROM_DSTT): $(NDSROM) $(NDSROM_DSTT_DLDI)
 	$(_V)$(CP) $(NDSROM) $@
 	$(_V)$(DLDIPATCH) patch $(NDSROM_DSTT_DLDI) $@
 
+$(NDSROM_MOONSHL2): arm9_moonshl2 arm7
+	@$(MKDIR) -p $(@D)
+	@echo "  NDSTOOL $@"
+	$(_V)$(BLOCKSDS)/tools/ndstool/ndstool -c $@ \
+		-9 build/arm9_moonshl2_padded.bin -7 build/arm7.bin \
+		-r7 0x37f8000 -e7 0x37f8000 \
+		-r9 0x2000000 -e9 0x2000000 -h 0x200
+
 $(NDSROM): arm9 arm7
 	@$(MKDIR) -p $(@D)
 	@echo "  NDSTOOL $@"
@@ -323,6 +333,16 @@ arm9plus:
 
 arm9_nobootstub:
 	$(_V)+$(MAKE) -f Makefile.miniboot TARGET=arm9_nobootstub --no-print-directory
+
+build/pad_zero_16384.bin:
+	@$(MKDIR) -p $(@D)
+	@echo "  DD      $@"
+	$(_V)dd if=/dev/zero of=$@ bs=16K count=1
+
+arm9_moonshl2: arm7 build/pad_zero_16384.bin
+	$(_V)+$(MAKE) -f Makefile.miniboot TARGET=arm9_moonshl2 --no-print-directory
+# Pad DLDI section to 32K.
+	$(_V)cat build/arm9_moonshl2.bin build/pad_zero_16384.bin build/arm7.bin > build/arm9_moonshl2_padded.bin
 
 arm9_r4isdhc: arm9
 	@echo "  R4ISDHC"

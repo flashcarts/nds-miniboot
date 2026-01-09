@@ -2,8 +2,8 @@
 //
 // Copyright (c) 2024 Adrian "asie" Siekierka
 
-#ifndef __DLDI_PATCH_H__
-#define __DLDI_PATCH_H__
+#ifndef DLDI_PATCH_H__
+#define DLDI_PATCH_H__
 
 #include "common.h"
 #include "dldi.h"
@@ -21,4 +21,4 @@
  */
 int dldi_patch_relocate(void *buffer, uint32_t size, DLDI_INTERFACE *driver);
 
-#endif /* __DLDI_PATCH_H__ */
+#endif /* DLDI_PATCH_H__ */

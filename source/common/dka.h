@@ -2,8 +2,8 @@
 //
 // Copyright (c) 2024 Adrian "asie" Siekierka
 
-#ifndef __DKA_H__
-#define __DKA_H__
+#ifndef DKA_H__
+#define DKA_H__
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -34,4 +34,4 @@ typedef struct {
 
 #define DKA_ARGV ((dka_argv_t*) 0x2FFFE70)
 
-#endif /* __COMMON_H__ */
+#endif /* DKA_H__ */

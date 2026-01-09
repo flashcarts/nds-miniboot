@@ -3,8 +3,8 @@
 // Copyright (C) 2022-2023 gba-hpp contributors
 // Copyright (c) 2024 Adrian "asie" Siekierka
 
-#ifndef __BIOS_H__
-#define __BIOS_H__
+#ifndef BIOS_H__
+#define BIOS_H__
 
 #include "common.h"
 

@@ -2,8 +2,8 @@
 //
 // Copyright (C) 2024 Adrian "asie" Siekierka
 
-#ifndef __CPSR_ASM_H__
-#define __CPSR_ASM_H__
+#ifndef CPSR_ASM_H__
+#define CPSR_ASM_H__
 
 #define CPSR_I 0x80
 #define CPSR_F 0x40

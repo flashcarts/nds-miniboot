@@ -2,8 +2,8 @@
 //
 // Copyright (c) 2024 Adrian "asie" Siekierka
 
-#ifndef __COMMON_H__
-#define __COMMON_H__
+#ifndef COMMON_H__
+#define COMMON_H__
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -128,4 +128,4 @@ typedef struct {
  */
 #define NDS_HEADER    ((nds_header_t*) 0x27FFE00)
 
-#endif /* __COMMON_H__ */
+#endif /* COMMON_H__ */

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Zlib
 //
-// Copyright (c) 2024 Adrian "asie" Siekierka
+// Copyright (c) 2024, 2026 Adrian "asie" Siekierka
 
 #include "common.h"
 #include "bios.h"
@@ -10,7 +10,11 @@
 #include "ff.h"
 #include "console.h"
 
-// #define DEBUG
+#ifdef MOONSHL2
+#include "moonshl2.h"
+#endif
+
+#define DEBUG
 
 static FATFS fs;
 
@@ -54,10 +58,24 @@ void ipc_arm7_cmd(uint32_t cmd) {
     while (last_sync == next_sync) next_sync = REG_IPCSYNC & 0xF;
 }
 
+#ifdef MOONSHL2
+#define DEFAULT_BOOT_PATH ".nds file"
+
+#define SELF_ARM9_SIZE 0x8000
+#define SELF_ARM7_SIZE 0x1000
+#define SELF_ARM9_START 0x2000000
+#define SELF_ARM7_START (SELF_ARM9_START + (((uint32_t) &_io_dldi_stub) & 0xFFFF) + 32768)
+#else
 #ifndef DEFAULT_BOOT_PATH
 #define DEFAULT_BOOT_PATH "/BOOT.NDS"
 #endif
 const char *executable_path = DEFAULT_BOOT_PATH;
+
+#define SELF_ARM9_SIZE NDS_HEADER->arm9_size
+#define SELF_ARM7_SIZE NDS_HEADER->arm7_size
+#define SELF_ARM9_START NDS_HEADER->arm9_start
+#define SELF_ARM7_START NDS_HEADER->arm7_start
+#endif
 
 int main(void) {
     FIL fp;
@@ -93,26 +111,29 @@ int main(void) {
     }
     dprintf(" OK\n");
 
-#ifndef _NO_BOOTSTUB
+#ifndef NO_BOOTSTUB
     // Create a bootstub in memory, if one doesn't already exist.
-    if (DKA_BOOTSTUB->magic != DKA_BOOTSTUB_MAGIC) {
+#ifndef FORCE_BOOTSTUB
+    if (DKA_BOOTSTUB->magic != DKA_BOOTSTUB_MAGIC)
+#endif // FORCE_BOOTSTUB
+    {
         uint8_t *bootstub_loc = ((uint8_t*) DKA_BOOTSTUB) + sizeof(dka_bootstub_t);
         uint8_t *arm9_bin_loc = bootstub_loc + bootstub_size;
-        uint8_t *arm7_bin_loc = arm9_bin_loc + NDS_HEADER->arm9_size;
+        uint8_t *arm7_bin_loc = arm9_bin_loc + SELF_ARM9_SIZE;
         
         bootstub.arm9_target_entry = arm9_bin_loc;
         bootstub.arm7_target_entry = arm7_bin_loc;
 
         __aeabi_memcpy(bootstub_loc, &bootstub, bootstub_size);
-        __aeabi_memcpy(arm9_bin_loc, (void*) NDS_HEADER->arm9_start, NDS_HEADER->arm9_size);
-        __aeabi_memcpy(arm7_bin_loc, (void*) NDS_HEADER->arm7_start, NDS_HEADER->arm7_size);
+        __aeabi_memcpy(arm9_bin_loc, (void*) SELF_ARM9_START, SELF_ARM9_SIZE);
+        __aeabi_memcpy(arm7_bin_loc, (void*) SELF_ARM7_START, SELF_ARM7_SIZE);
 
         DKA_BOOTSTUB->magic = DKA_BOOTSTUB_MAGIC;
         DKA_BOOTSTUB->arm9_entry = bootstub_loc;
         DKA_BOOTSTUB->arm7_entry = bootstub_loc + 4;
         DKA_BOOTSTUB->loader_size = 0;
     }
-#endif // _NO_BOOTSTUB
+#endif // NO_BOOTSTUB
 
     // Create a copy of the DLDI driver in VRAM before initializing it.
     // We'll make use of this copy for patching the ARM9 binary later.
@@ -122,6 +143,9 @@ int main(void) {
     dprintf("Mounting FAT filesystem... ");
     checkErrorFatFs("Could not mount FAT filesystem", f_mount(&fs, "", 1));
     dprintf("OK\n");
+#ifdef MOONSHL2
+    moonshl2_init(&fs);
+#endif
     checkErrorFatFs("Could not find " DEFAULT_BOOT_PATH, f_open(&fp, executable_path, FA_READ));
     dprintf(DEFAULT_BOOT_PATH " found.\n");
 

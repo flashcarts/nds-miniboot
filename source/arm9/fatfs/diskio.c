@@ -31,6 +31,19 @@ DRESULT disk_read (
 	return RES_OK;
 }
 
+#if !FF_FS_READONLY
+DRESULT disk_write (
+	BYTE pdrv,		/* Physical drive nmuber to identify the drive */
+	const BYTE *buff, /* Data buffer to store written data */
+	LBA_t sector,	/* Start sector in LBA */
+	UINT count		/* Number of sectors to write */
+) {
+	if (!_io_dldi_stub.writeSectors(sector, count, buff))
+		return RES_ERROR;
+	return RES_OK;
+}
+#endif
+
 DRESULT disk_ioctl (
 	BYTE pdrv,		/* Physical drive nmuber (0..) */
 	BYTE cmd,		/* Control code */
