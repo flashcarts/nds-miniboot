@@ -14,7 +14,7 @@
 #include "moonshl2.h"
 #endif
 
-#define DEBUG
+// #define DEBUG
 
 static FATFS fs;
 

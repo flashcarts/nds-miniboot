@@ -23,6 +23,7 @@ flashcart's memory card:
 | Gateway Blue | gwblue | |
 | iTouchDS | m3ds | No bootstub support |
 | M3 DS Real | m3ds | No bootstub support |
+| MoonShell 2.10 | moonshl2 | Bootstub returns to MoonShell |
 | R4 (original) | generic | |
 | R4 i.L.S. | ace3dsplus | |
 | R4/R4i Ultra | r4itt | |

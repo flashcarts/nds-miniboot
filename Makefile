@@ -70,6 +70,8 @@ NDSROM_ITDS_JP		:= dist/m3ds/boot.jp
 NDSROM_M3DS		:= dist/m3ds/SYSTEM/g6dsload.eng
 NDSROM_MKR6		:= dist/mkr6/_boot_ds.nds
 NDSROM_MOONSHL2		:= dist/generic/moonshl2/extlink/nds.miniboot.nds
+NDSROM_MOONSHL2_HN	:= dist/generic/moonshl2/extlink/_hn.HugeNDSLoader.nds
+NDSROM_MOONSHL2_VH	:= dist/generic/moonshl2/extlink/_vh.VeryHugeNDSLoader.nds
 NDSROM_R4		:= dist/generic/_DS_MENU.DAT
 NDSROM_R4DSPRO	:= dist/r4dspro/_ds_menu.dat
 NDSROM_R4IDSN		:= dist/r4idsn/_dsmenu.dat
@@ -100,6 +102,8 @@ all: arm9plus \
 	$(NDSROM_M3DS) \
 	$(NDSROM_MKR6) \
 	$(NDSROM_MOONSHL2) \
+	$(NDSROM_MOONSHL2_HN) \
+	$(NDSROM_MOONSHL2_VH) \
 	$(NDSROM_R4) \
 	$(NDSROM_R4DSPRO) \
 	$(NDSROM_R4IDSN) \
@@ -312,6 +316,14 @@ $(NDSROM_MOONSHL2): arm9_moonshl2 arm7
 		-9 build/arm9_moonshl2_padded.bin -7 build/arm7.bin \
 		-r7 0x37f8000 -e7 0x37f8000 \
 		-r9 0x2000000 -e9 0x2000000 -h 0x200
+
+$(NDSROM_MOONSHL2_HN): $(NDSROM_MOONSHL2)
+	@echo "  CP      $@"
+	$(_V)$(CP) $< $@
+
+$(NDSROM_MOONSHL2_VH): $(NDSROM_MOONSHL2)
+	@echo "  CP      $@"
+	$(_V)$(CP) $< $@
 
 $(NDSROM): arm9 arm7
 	@$(MKDIR) -p $(@D)
