@@ -48,6 +48,13 @@ Notes:
 Hold START while loading to enable debug output. Note that launching
 will only continue once you release START.
 
+### MoonShell 2 support
+
+To support file associations of argv-based programs to extensions:
+
+1. Copy `nds.miniboot.nds` to `EXT.nds`, where `EXT` is the target extension.
+2. Copy the argv-based `program.nds` to `EXT.dat`.
+
 ## Development
 
 To build miniboot, the [Wonderful toolchain](https://wonderful.asie.pl/)'s
