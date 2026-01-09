@@ -54,7 +54,10 @@ void ipc_arm7_cmd(uint32_t cmd) {
     while (last_sync == next_sync) next_sync = REG_IPCSYNC & 0xF;
 }
 
-const char *executable_path = "/BOOT.NDS";
+#ifndef DEFAULT_BOOT_PATH
+#define DEFAULT_BOOT_PATH "/BOOT.NDS"
+#endif
+const char *executable_path = DEFAULT_BOOT_PATH;
 
 int main(void) {
     FIL fp;
@@ -119,11 +122,11 @@ int main(void) {
     dprintf("Mounting FAT filesystem... ");
     checkErrorFatFs("Could not mount FAT filesystem", f_mount(&fs, "", 1));
     dprintf("OK\n");
-    checkErrorFatFs("Could not find BOOT.NDS", f_open(&fp, executable_path, FA_READ));
-    dprintf("BOOT.NDS found.\n");
+    checkErrorFatFs("Could not find " DEFAULT_BOOT_PATH, f_open(&fp, executable_path, FA_READ));
+    dprintf(DEFAULT_BOOT_PATH " found.\n");
 
     // Read the .nds file header.
-    checkErrorFatFs("Could not read BOOT.NDS", f_read(&fp, NDS_HEADER, sizeof(nds_header_t), &bytes_read));
+    checkErrorFatFs("Could not read " DEFAULT_BOOT_PATH, f_read(&fp, NDS_HEADER, sizeof(nds_header_t), &bytes_read));
 
     bool waiting_arm7 = false;
     // Load the ARM7 binary.
@@ -139,8 +142,8 @@ int main(void) {
             eprintf("Invalid ARM7 binary location."); while(1);
         }
 
-        checkErrorFatFs("Could not read BOOT.NDS", f_lseek(&fp, NDS_HEADER->arm7_offset));
-        checkErrorFatFs("Could not read BOOT.NDS", f_read(&fp, (void*) (in_arm7_ram ? 0x2000000 : NDS_HEADER->arm7_start), NDS_HEADER->arm7_size, &bytes_read));
+        checkErrorFatFs("Could not read " DEFAULT_BOOT_PATH, f_lseek(&fp, NDS_HEADER->arm7_offset));
+        checkErrorFatFs("Could not read " DEFAULT_BOOT_PATH, f_read(&fp, (void*) (in_arm7_ram ? 0x2000000 : NDS_HEADER->arm7_start), NDS_HEADER->arm7_size, &bytes_read));
 
         // If the ARM7 binary has to be relocated to ARM7 RAM, the ARM7 CPU
         // has to relocate it from main memory.
@@ -164,12 +167,12 @@ int main(void) {
             eprintf("Invalid ARM9 binary location."); while(1);
         }
 
-        checkErrorFatFs("Could not read BOOT.NDS", f_lseek(&fp, NDS_HEADER->arm9_offset));
+        checkErrorFatFs("Could not read " DEFAULT_BOOT_PATH, f_lseek(&fp, NDS_HEADER->arm9_offset));
         if (waiting_arm7) {
             ipc_arm7_cmd(IPC_ARM7_NONE);
             waiting_arm7 = false;
         }
-        checkErrorFatFs("Could not read BOOT.NDS", f_read(&fp, (void*) NDS_HEADER->arm9_start, NDS_HEADER->arm9_size, &bytes_read));
+        checkErrorFatFs("Could not read " DEFAULT_BOOT_PATH, f_read(&fp, (void*) NDS_HEADER->arm9_start, NDS_HEADER->arm9_size, &bytes_read));
 
         // Try to apply the DLDI driver patch.
         result = dldi_patch_relocate((void*) NDS_HEADER->arm9_start, NDS_HEADER->arm9_size, DLDI_BACKUP);
