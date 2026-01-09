@@ -210,10 +210,14 @@ int main(void) {
     }
 
     // Set up argv.
+#ifdef MOONSHL2
+    moonshl2_build_argv();
+#else
     DKA_ARGV->cmdline = (char*) 0x2FFFEB0;
     DKA_ARGV->cmdline_size = strlen(executable_path) + 1;
     __aeabi_memcpy(DKA_ARGV->cmdline, executable_path, DKA_ARGV->cmdline_size);
     DKA_ARGV->magic = DKA_ARGV_MAGIC;
+#endif
 
     dprintf("Launching");
 

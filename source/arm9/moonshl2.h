@@ -40,4 +40,9 @@ extern char executable_path[MOONSHL2_EXTLINK_STRING_LEN+1];
  */
 void moonshl2_init(FATFS *fs);
 
+/**
+ * @brief Build ARGV.
+ */
+void moonshl2_build_argv(void);
+
 #endif /* MOONSHL2_H__ */
