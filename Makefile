@@ -60,6 +60,7 @@ NDSROM_DSONE	:= dist/generic/scfw.sc
 NDSROM_DSONE_SDHC	:= dist/dsonesdhc/scfw.sc
 NDSROM_DSTT		:= dist/generic/ttmenu.dat
 NDSROM_EDGEI	:= dist/generic/dsedgei.dat
+NDSROM_EX4DS	:= dist/ex4ds/_ds_menu.dat
 NDSROM_EZ5		:= dist/generic/ez5sys.bin
 NDSROM_EZ5N		:= dist/generic/ezds.dat
 NDSROM_GMTF		:= dist/generic/bootme.nds
@@ -92,6 +93,7 @@ all: arm9plus \
 	$(NDSROM_DSONE_SDHC) \
 	$(NDSROM_DSTT) \
 	$(NDSROM_EDGEI) \
+	$(NDSROM_EX4DS) \
 	$(NDSROM_EZ5) \
 	$(NDSROM_EZ5N) \
 	$(NDSROM_GMTF) \
@@ -122,6 +124,14 @@ $(NDSROM_ACE3DS): $(NDSROM) $(NDSROM_ACE3DS_DLDI) $(SCRIPT_R4CRYPT)
 	$(_V)$(DLDIPATCH) patch $(NDSROM_ACE3DS_DLDI) $@
 	@echo "  R4CRYPT $@"
 	$(_V)$(LUA) $(SCRIPT_R4CRYPT) $@ 4002
+
+$(NDSROM_EX4DS): $(NDSROM) $(NDSROM_ACE3DS_DLDI) $(SCRIPT_R4CRYPT)
+	@$(MKDIR) -p $(@D)
+	@echo "  DLDI    $@"
+	$(_V)$(CP) $(NDSROM) $@
+	$(_V)$(DLDIPATCH) patch $(NDSROM_ACE3DS_DLDI) $@
+	@echo "  R4CRYPT $@"
+	$(_V)$(LUA) $(SCRIPT_R4CRYPT) $@
 
 $(NDSROM_GWBLUE): arm9 arm7 $(NDSROM_ACE3DS_DLDI) $(SCRIPT_R4CRYPT)
 	@$(MKDIR) -p $(@D)

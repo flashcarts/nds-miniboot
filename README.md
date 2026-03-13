@@ -18,6 +18,7 @@ flashcart's memory card:
 | Datel Games 'n' Music | generic | |
 | DSTT | generic | |
 | EDGEi | generic | |
+| EX4DS | ex4ds | |
 | EZ-Flash Parallel | generic | |
 | EZ-Flash V | generic | |
 | Gateway Blue | gwblue | |
