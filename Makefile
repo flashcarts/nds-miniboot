@@ -129,7 +129,7 @@ $(NDSROM_GWBLUE): arm9 arm7 $(NDSROM_ACE3DS_DLDI) $(SCRIPT_R4CRYPT)
 	$(_V)$(BLOCKSDS)/tools/ndstool/ndstool -c $@ \
 		-9 build/arm9.bin -7 build/arm7.bin \
 		-r7 0x2380000 -e7 0x2380000 \
-		-r9 0x2000450 -e9 0x2000450 -h 0x200 \
+		-r9 0x2000450 -e9 0x2000450 -h 0x200 -pass \
 		-g "####" "##" "R4IT"
 	@echo "  DLDI    $@"
 	$(_V)$(DLDIPATCH) patch $(NDSROM_ACE3DS_DLDI) $@
@@ -142,7 +142,7 @@ $(NDSROM_R4ILS): arm9 arm7 $(NDSROM_ACE3DS_DLDI) $(SCRIPT_R4CRYPT)
 	$(_V)$(BLOCKSDS)/tools/ndstool/ndstool -c $@ \
 		-9 build/arm9.bin -7 build/arm7.bin \
 		-r7 0x2380000 -e7 0x2380000 \
-		-r9 0x2000450 -e9 0x2000450 -h 0x200 \
+		-r9 0x2000450 -e9 0x2000450 -h 0x200 -pass \
 		-g "####" "##" "R4XX"
 	@echo "  DLDI    $@"
 	$(_V)$(DLDIPATCH) patch $(NDSROM_ACE3DS_DLDI) $@
@@ -155,7 +155,7 @@ $(NDSROM_R4IDSN): arm9 arm7 $(NDSROM_R4IDSN_DLDI)
 	$(_V)$(BLOCKSDS)/tools/ndstool/ndstool -c $@ \
 		-9 build/arm9.bin -7 build/arm7.bin \
 		-r7 0x2380000 -e7 0x2380000 \
-		-r9 0x2000000 -e9 0x2000000 -h 0x200
+		-r9 0x2000000 -e9 0x2000000 -h 0x200 -pass
 	@echo "  DLDI    $@"
 	$(_V)$(DLDIPATCH) patch $(NDSROM_R4IDSN_DLDI) $@
 
@@ -165,7 +165,7 @@ $(NDSROM_MKR6): arm9 arm7 $(NDSROM_MKR6_DLDI)
 	$(_V)$(BLOCKSDS)/tools/ndstool/ndstool -c $@ \
 		-9 build/arm9.bin -7 build/arm7.bin \
 		-r7 0x2380000 -e7 0x2380000 \
-		-r9 0x2000000 -e9 0x2000000 -h 0x200
+		-r9 0x2000000 -e9 0x2000000 -h 0x200 -pass
 	@echo "  DLDI    $@"
 	$(_V)$(DLDIPATCH) patch $(NDSROM_MKR6_DLDI) $@
 
@@ -175,7 +175,7 @@ $(NDSROM_R4ITT): arm9 arm7 $(NDSROM_AK2_DLDI)
 	$(_V)$(BLOCKSDS)/tools/ndstool/ndstool -c $@ \
 		-9 build/arm9.bin -7 build/arm7.bin \
 		-r7 0x2380000 -e7 0x2380000 \
-		-r9 0x2000800 -e9 0x2000800 -h 0x200
+		-r9 0x2000800 -e9 0x2000800 -h 0x200 -pass
 	@echo "  DLDI    $@"
 	$(_V)$(DLDIPATCH) patch $(NDSROM_AK2_DLDI) $@
 
@@ -185,7 +185,7 @@ $(NDSROM_DSONE): arm9 arm7 $(NDSROM_DSONE_DLDI)
 	$(_V)$(BLOCKSDS)/tools/ndstool/ndstool -c $@ \
 		-9 build/arm9.bin -7 build/arm7.bin \
 		-r7 0x2380000 -e7 0x2380000 \
-		-r9 0x2000450 -e9 0x2000450 -h 0x200 \
+		-r9 0x2000450 -e9 0x2000450 -h 0x200 -pass \
 		-g "ENG0"
 	@echo "  DLDI    $@"
 	$(_V)$(DLDIPATCH) patch $(NDSROM_DSONE_DLDI) $@
@@ -196,7 +196,7 @@ $(NDSROM_DSONE_SDHC): arm9 arm7 $(NDSROM_DSONE_SDHC_DLDI)
 	$(_V)$(BLOCKSDS)/tools/ndstool/ndstool -c $@ \
 		-9 build/arm9.bin -7 build/arm7.bin \
 		-r7 0x2380000 -e7 0x2380000 \
-		-r9 0x2000450 -e9 0x2000450 -h 0x200 \
+		-r9 0x2000450 -e9 0x2000450 -h 0x200 -pass \
 		-g "ENG0"
 	@echo "  DLDI    $@"
 	$(_V)$(DLDIPATCH) patch $(NDSROM_DSONE_SDHC_DLDI) $@
@@ -207,7 +207,7 @@ $(NDSROM_M3DS_BASE): arm9_nobootstub arm7 $(NDSROM_M3DS_DLDI) $(SCRIPT_DSBIZE)
 	$(_V)$(BLOCKSDS)/tools/ndstool/ndstool -c $@ \
 		-9 build/arm9_nobootstub.bin -7 build/arm7.bin \
 		-r7 0x23ad800 -e7 0x23ad800 \
-		-r9 0x2380000 -e9 0x2380000 -h 0x200
+		-r9 0x2380000 -e9 0x2380000 -h 0x200 -pass
 	@echo "  DLDI    $@"
 	$(_V)$(DLDIPATCH) patch $(NDSROM_M3DS_DLDI) $@
 	@echo "  DSBIZE  $@"
@@ -254,7 +254,7 @@ $(NDSROM_R4ISDHC): arm9_r4isdhc arm7 $(NDSROM_DSTT_DLDI)
 	$(_V)$(BLOCKSDS)/tools/ndstool/ndstool -c $@ \
 		-9 build/arm9_r4isdhc.bin -7 build/arm7.bin \
 		-r7 0x2380000 -e7 0x2380000 \
-		-r9 0x2000000 -e9 0x2000450 -h 0x200
+		-r9 0x2000000 -e9 0x2000450 -h 0x200 -pass
 	@echo "  DLDI    $@"
 	$(_V)$(DLDIPATCH) patch $(NDSROM_DSTT_DLDI) $@
 
@@ -315,7 +315,7 @@ $(NDSROM_MOONSHL2): arm9_moonshl2 arm7
 	$(_V)$(BLOCKSDS)/tools/ndstool/ndstool -c $@ \
 		-9 build/arm9_moonshl2_padded.bin -7 build/arm7.bin \
 		-r7 0x37f8000 -e7 0x37f8000 \
-		-r9 0x2000000 -e9 0x2000000 -h 0x200
+		-r9 0x2000000 -e9 0x2000000 -h 0x200 -pass
 
 $(NDSROM_MOONSHL2_HN): $(NDSROM_MOONSHL2)
 	@echo "  CP      $@"
@@ -331,7 +331,7 @@ $(NDSROM): arm9 arm7
 	$(_V)$(BLOCKSDS)/tools/ndstool/ndstool -c $@ \
 		-9 build/arm9.bin -7 build/arm7.bin \
 		-r7 0x2380000 -e7 0x2380000 \
-		-r9 0x2000450 -e9 0x2000450 -h 0x200
+		-r9 0x2000450 -e9 0x2000450 -h 0x200 -pass
 
 clean:
 	@echo "  CLEAN"

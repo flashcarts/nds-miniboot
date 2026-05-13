@@ -10,7 +10,7 @@ jobs:
   build:
     name: Build
     runs-on: docker
-    container: skylyrac/blocksds:slim-v1.13.1
+    container: skylyrac/blocksds:slim-v1.20.0
     steps:
       - name: Install dependencies
         run: apt-get update && apt-get install -y --no-install-recommends nodejs
